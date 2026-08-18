@@ -421,3 +421,7 @@ The build fails with a clear error when required game references are missing.
 
 Copy `bin/Release/netstandard2.1/DynamicNPCRelationships.dll` into a folder
 under `BepInEx/plugins`.
+
+## Credits
+
+Created by **Saelac and ChatGPT**.
