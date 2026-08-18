@@ -22,13 +22,13 @@ namespace DynamicNPCRelationships;
 [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
 [BepInDependency(
     Silverpine.ModdingTools.Plugin.PluginGuid,
-    BepInDependency.DependencyFlags.HardDependency)]
+    "1.9.1")]
 public sealed class Plugin : BaseUnityPlugin
 {
     public const string PluginGuid =
         "renegadex.silverpine.dynamicnpcrelationships";
     public const string PluginName = "Dynamic NPC Relationships";
-    public const string PluginVersion = "1.17.0";
+    public const string PluginVersion = "1.17.1";
 
     internal static Plugin Instance = null!;
     internal static ManualLogSource Log = null!;

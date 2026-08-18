@@ -7,9 +7,10 @@ develop persistent relationships from their actual interactions.
 
 **Development assistance:** ChatGPT
 
-**Current version:** 1.17.0
+**Current version:** 1.17.1
 
-The plugin has a hard dependency on **Modding Tools Menu**. It compiles against
+The plugin has a hard dependency on **Modding Tools Menu 1.9.1 or later**, using
+the BepInEx identity `Saelac.Silverpine.ModdingTools`. It compiles against
 Newtonsoft.Json but excludes the runtime asset, using the single shared
 `Newtonsoft.Json.dll` installed by Modding Tools instead of placing another
 copy in the plugin folder.
@@ -22,7 +23,7 @@ enabled.
 
 ## Installation
 
-1. Install BepInEx 5 and Modding Tools Menu for Silverpine.
+1. Install BepInEx 5 and Modding Tools Menu 1.9.1 or later for Silverpine.
 2. Place `DynamicNPCRelationships.dll` in
    `BepInEx/plugins/DynamicNPCRelationships/`.
 3. Start the game once to generate the BepInEx configuration.
