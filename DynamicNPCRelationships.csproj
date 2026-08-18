@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>DynamicNPCRelationships</AssemblyName>
+    <Product>Dynamic NPC Relationships</Product>
+    <Authors>saelac; ChatGPT</Authors>
+    <Company>saelac</Company>
+    <Copyright>Copyright (c) 2026 saelac</Copyright>
+    <Version>1.17.0</Version>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <Deterministic>true</Deterministic>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+    </RestoreAdditionalProjectSources>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <Optimize>true</Optimize>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SilverpineGameDir Condition="'$(SilverpineGameDir)' == '' and Exists('$(MSBuildProjectDirectory)\..\..\Silverpine_Data\Managed\Assembly-CSharp.dll')">$(MSBuildProjectDirectory)\..\..</SilverpineGameDir>
+    <ModdingToolsProject Condition="'$(ModdingToolsProject)' == '' and Exists('$(MSBuildProjectDirectory)\..\ModdingTools\ModdingTools.csproj')">$(MSBuildProjectDirectory)\..\ModdingTools\ModdingTools.csproj</ModdingToolsProject>
+    <ModdingToolsAssembly Condition="'$(ModdingToolsAssembly)' == '' and '$(SilverpineGameDir)' != ''">$(SilverpineGameDir)\BepInEx\plugins\ModdingTools\ModdingTools.dll</ModdingToolsAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Core" Version="5.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3">
+      <ExcludeAssets>runtime</ExcludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="UnityEngine.Modules" Version="2022.3.62" IncludeAssets="compile" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(ModdingToolsProject)')">
+    <ProjectReference Include="$(ModdingToolsProject)">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="!Exists('$(ModdingToolsProject)') and Exists('$(ModdingToolsAssembly)')">
+    <Reference Include="ModdingTools">
+      <HintPath>$(ModdingToolsAssembly)</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(SilverpineGameDir)\Silverpine_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="ValidateGameReferences" BeforeTargets="ResolveReferences">
+    <Error
+      Condition="!Exists('$(SilverpineGameDir)\Silverpine_Data\Managed\Assembly-CSharp.dll')"
+      Text="Set SilverpineGameDir to the Silverpine installation directory." />
+    <Error
+      Condition="!Exists('$(ModdingToolsProject)') and !Exists('$(ModdingToolsAssembly)')"
+      Text="Set ModdingToolsProject or ModdingToolsAssembly to an installed ModdingTools build." />
+  </Target>
+</Project>
